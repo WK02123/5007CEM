@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Shuttle Bus System Form</title>
+        <link rel="stylesheet" href="css/Style3.css"/>
+        
+    </head>
+    <body>
+
+        <div class="container">
+            <h2>Shuttle Bus Reservation</h2>
+            <form>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact Number (Malaysia style):</label>
+                    <input type="tel" id="contact" name="contact" pattern="[0-9]{3}-[0-9]{7}" placeholder="123-4567890" required>
+                    <small>Format: 123-4567890</small>
+                </div>
+                <div class="form-group">
+                    <label for="pickup-location">Pickup Location:</label>
+                    <select id="pickup-location" name="pickup-location" required>
+                        <option value="" disabled selected>Select Pickup Location</option>
+                        <option value="Location A">Relau</option>
+                        <option value="Location B">Bukit Jambul, SG Nibong</option>
+                        <option value="Location C">Sg Ara</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="departure-time">Departure Time to College:</label>
+                    <select id="departure-time" name="departure-time" required>
+                        <option value="" disabled selected>Select Departure Time</option>
+                        <option value="08:00 AM">07:00 AM</option>
+                        <option value="10:00 AM">09:00 AM</option>
+                        <option value="12:00 PM">11:00 AM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="return-time">Return Time from College:</label>
+                    <select id="return-time" name="return-time" required>
+                        <option value="" disabled selected>Select Return Time</option>
+                        <option value="02:00 PM">12:20 PM</option>
+                        <option value="04:00 PM">02:20 PM</option>
+                        <option value="06:00 PM">03:20 PM</option>
+                        <option value="08:00 PM">04:20 PM</option>
+                        <option value="10:00 PM">06:20 PM</option>
+                    </select>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+    </body>
+</html>
