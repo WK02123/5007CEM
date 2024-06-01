@@ -1,66 +1,80 @@
-body
-{
+body {
     margin: 0;
     padding: 0;
-    background-image:url(/IntiShuttle/Pic8/IICS533.jpg)
-
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url(/IntiShuttle/Pic8/IICS533.jpg);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.login{
-    width: 382px;
-    overflow: hidden;
-    margin: auto;
-    margin: 20 0 0 450px;
-    padding: 80px;
-    background: #23463f;
-    border-radius: 15px ;
 
-}
-h2{
-    text-align: center;
-    color: #277582;
+.container {
+    width: 100%;
+    max-width: 400px;
     padding: 20px;
 }
-label{
-    color: #08ffd1;
-    font-size: 17px;
-}
-#Uname{
-    width: 300px;
-    height: 30px;
-    border: none;
-    border-radius: 3px;
-    padding-left: 8px;
-}
-#Pass{
-    width: 300px;
-    height: 30px;
-    border: none;
-    border-radius: 3px;
-    padding-left: 8px;
 
-}
-#log{
-    width: 300px;
-    height: 60px;
-    background-color: #04AA6D; /* Green */
-    border: none;
-    color: white;
-    padding: 16px 32px;
+.login-box {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.textbox {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.textbox input {
+    width: 100%;
+    padding: 10px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #333;
+    color: #333;
     font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
+    outline: none;
+}
+
+.user-type {
+    margin-bottom: 20px;
+}
+
+.user-type label, .user-type select {
+    color: #333;
+    font-size: 16px;
+}
+
+.user-type select {
+    width: 100%;
+    padding: 10px;
+    background: none;
+    border: 1px solid #333;
+    color: #333;
+    outline: none;
+    font-size: 16px;
+}
+
+.btn {
+    width: 100%;
+    background: #e74c3c;
+    border: none;
+    padding: 10px;
     cursor: pointer;
-
-
+    font-size: 18px;
+    color: #fff;
+    border-radius: 5px;
+    transition: background 0.3s;
 }
-span{
-    color: white;
-    font-size: 17px;
-}
-a{
-    float: right;
-    background-color: grey;
+
+.btn:hover {
+    background: #c0392b;
 }

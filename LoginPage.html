@@ -2,31 +2,55 @@
 
 <html>
     <head>
-        <title>Login Page </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login Page</title>
+
         <link rel="stylesheet" href="css/Style2.css"/>
-   
+        
+        <script>
+            
+            function handleLogin(event) {
+                event.preventDefault();
+                const userType = document.getElementById('userType').value;
+
+                if (userType === 'admin') {
+                    window.location.href = 'Admin.html';
+                } else if (userType === 'driver') {
+                    window.location.href = 'Driver.html';
+                } else if (userType === 'student') {
+                    window.location.href = 'Form.html';
+                }
+            }
+
+        </script>
+
     </head>
 
     <body>
-        <h2>Login Page</h2><br>
-        <div class="login">
-            <form id="login" method="get" action="login.php">
-                <label><b>User Name
-                    </b>
-                </label>
-                <input type="text" name="Uname" id="Uname" placeholder="Username">
-                <br><br>
-                <label><b>Password
-                    </b>
-                </label>
-                <input type="Password" name="Pass" id="Pass" placeholder="Password">
-                <br><br>
-                <input type="button" name="log" id="log" value="Log In">
-                <br><br>
-                <input type="checkbox" id="check">
-                <span>Remember me</span>
-                <br><br>
-            </form>
+        <div class="container">
+            <div class="login-box">
+                <h2>Login</h2>
+                <form action="#" method="post">
+                    <div class="user-type">
+                        <label for="userType">User Type:</label>
+                        <select id="userType" name="userType" required>
+                            <option value="admin">Admin</option>
+                            <option value="driver">Driver</option>
+                            <option value="student">Student</option>
+                        </select>
+                    </div>
+                    <div class="textbox">
+                        <input type="text" placeholder="Username" name="username" required>
+                    </div>
+                    <div class="textbox">
+                        <input type="password" placeholder="Password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+            </div>
         </div>
+
+
     </body>
 </html>
