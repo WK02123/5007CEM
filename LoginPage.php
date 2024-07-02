@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 session_start();
 
 $servername = "localhost";
@@ -10,7 +8,6 @@ $dbname = "student";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-
 
 // Check connection
 if ($conn->connect_error) {
@@ -22,7 +19,7 @@ $student_id = $_POST['student_id'];
 $password = $_POST['password'];
 
 // Prepare and bind
-$stmt = $conn->prepare("SELECT * FROM student2 WHERE student_id = ? AND password = ?");
+$stmt = $conn->prepare("SELECT name, email, phone FROM student2 WHERE student_id = ? AND password = ?");
 $stmt->bind_param("ss", $student_id, $password);
 
 // Execute the query
@@ -32,15 +29,26 @@ $result = $stmt->get_result();
 // Check if the user exists
 if ($result->num_rows > 0) {
     // Correct login
+    $row = $result->fetch_assoc();
+    
+    // Store user data in session variables
     $_SESSION['student_id'] = $student_id;
-    header("Location: Student.html");
+    $_SESSION['name'] = $row['name'];
+    $_SESSION['email'] = $row['email'];
+    $_SESSION['phone'] = $row['phone'];
+    
+    // Redirect to Student.html
+    header("Location: Student.php");
     exit();
 } else {
     // Incorrect login
     echo "<script>alert('Incorrect username or password'); window.location.href='LoginPage.html';</script>";
 }
 
+var_dump($_SESSION);
+
 // Close the connection
 $stmt->close();
 $conn->close();
+
 ?>

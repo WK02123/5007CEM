@@ -28,15 +28,21 @@ $stmt->bind_param("ss", $driver_id, $password);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Check if the user exists
 if ($result->num_rows > 0) {
     // Correct login
-    $_SESSION['driver_id'] = $driver_id;
-    header("Location: Driver.html");
+    $row = $result->fetch_assoc();
+    
+    // Store user data in session variables
+    $_SESSION['driver_id'] = $row['driver_id'];
+    $_SESSION['name'] = $row['name'];
+    $_SESSION['phone'] = $row['phone'];
+    
+    // Redirect to Student.html
+    header("Location: Driver_Login.php");
     exit();
 } else {
     // Incorrect login
-    echo "<script>alert('Incorrect admin_id or password'); window.location.href='Driver_login.html';</script>";
+    echo "<script>alert('Incorrect username or password'); window.location.href='Driver_Login.php';</script>";
 }
 
 // Close the connection

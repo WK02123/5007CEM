@@ -1,67 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    
-    <link rel="stylesheet" href="Styles4.css">
-    
-</head>
-<body>
-    <div class="container">
-        <h1>Admin Dashboard</h1>
-        <div id="schedule-list"></div>
-    </div>
+<html>
+    <head>
+        <title>Admin Page</title>
+        <link rel="stylesheet" href="css/Style4.css"/>
+    </head>
+    <body>
+        <h1>Admin Page</h1>
+        <table id="reservationTable">
+            <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Date</th>
+                <th>Route</th>
+                <th>Departure Time</th>
+                <th>Return Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </table>
+        <script>
+            function updateReservation(reservation_id, status) {
+                console.log("Updating reservation:", reservation_id, status); // Debugging log
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "update_reservation.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            console.log("Server response:", xhr.responseText); // Output the response from the server
+                            if (xhr.responseText.includes("success")) {
+                                location.reload();
+                            } else {
+                                console.error("Update failed:", xhr.responseText);
+                            }
+                        } else {
+                            console.error("Error: " + xhr.status);
+                        }
+                    }
+                };
+                xhr.send("reservation_id=" + reservation_id + "&status=" + status);
+            }
 
-    <script>
-        // Example schedule data
-const schedules = [
-    { id: 1, title: 'Schedule 1', status: 'pending' },
-    { id: 2, title: 'Schedule 2', status: 'pending' },
-    { id: 3, title: 'Schedule 3', status: 'accepted' },
-    { id: 4, title: 'Schedule 4', status: 'rejected' }
-];
+            document.addEventListener('DOMContentLoaded', function () {
+                fetch('fetch_reservations.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            let table = document.getElementById('reservationTable');
+                            data.forEach(reservation => {
+                                let row = table.insertRow();
+                                row.insertCell(0).innerText = reservation.student_id;
+                                row.insertCell(1).innerText = reservation.name;
+                                row.insertCell(2).innerText = reservation.email;
+                                row.insertCell(3).innerText = reservation.phone;
+                                row.insertCell(4).innerText = reservation.date;
+                                row.insertCell(5).innerText = reservation.route;
+                                row.insertCell(6).innerText = reservation.dep_time;
+                                row.insertCell(7).innerText = reservation.ret_time;
+                                row.insertCell(8).innerText = reservation.status; // Add status cell
+                                let actionsCell = row.insertCell(9);
+                                actionsCell.innerHTML = `<button class='accept' onclick="updateReservation(${reservation.reservation_id}, 'accepted')">Accept</button> <button class='reject' onclick="updateReservation(${reservation.reservation_id}, 'rejected')">Reject</button>`;
+                            });
+                        })
+                        .catch(error => console.error("Fetch error:", error)); // Add error handling for fetch
+            });
 
-const scheduleList = document.getElementById('schedule-list');
-
-// Function to render schedule items
-function renderSchedules() {
-    scheduleList.innerHTML = '';
-    schedules.forEach(schedule => {
-        const item = document.createElement('div');
-        item.classList.add('schedule-item');
-        item.innerHTML = `
-            <span>${schedule.title}</span>
-            <button onclick="acceptSchedule(${schedule.id})" ${schedule.status !== 'pending' ? 'disabled' : ''}>Accept</button>
-            <button onclick="rejectSchedule(${schedule.id})" ${schedule.status !== 'pending' ? 'disabled' : ''}>Reject</button>
-        `;
-        scheduleList.appendChild(item);
-    });
-}
-
-// Function to accept a schedule
-function acceptSchedule(id) {
-    const schedule = schedules.find(s => s.id === id);
-    if (schedule) {
-        schedule.status = 'accepted';
-        renderSchedules();
-    }
-}
-
-// Function to reject a schedule
-function rejectSchedule(id) {
-    const schedule = schedules.find(s => s.id === id);
-    if (schedule) {
-        schedule.status = 'rejected';
-        renderSchedules();
-    }
-}
-
-// Initial rendering
-renderSchedules();
-
-        
-    </script>
-</body>
+        </script>
+    </body>
 </html>
