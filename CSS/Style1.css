@@ -1,6 +1,7 @@
 .footer {
     width: 100%;
-    background-color: red;
+    background-color: red
+    
 }
 .footer .col {
     width: 190px;
@@ -14,7 +15,7 @@
     padding: 0;
     font-size: 15px;
     line-height: 17px;
-    padding: 10px 0;
+    padding: 50px 0;
     color: #ffffff;
     text-transform: uppercase;
 }
@@ -132,8 +133,10 @@ button {
     margin-bottom: 50px;
     box-shadow: 0 3px 20px 0 #0000003b;
 }
-button:hover{
-    cursor: pointer;
+button:hover.stars{
+    display: block;
+    filter: drop-shadow(0 0 10pz
+        #fffdef);
 }
 
 #logo{

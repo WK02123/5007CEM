@@ -1,7 +1,13 @@
 <?php
+session_start();
+if (!isset($_SESSION['route'])) {
+    echo json_encode([]);
+    exit();
+}
+
 $servername = "localhost";
-$username = "root"; // your phpMyAdmin username
-$password = ""; // your phpMyAdmin password
+$username = "root";
+$password = "";
 $dbname = "student";
 
 // Create connection
@@ -12,8 +18,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM reservation WHERE status='accepted'";
-$result = $conn->query($sql);
+$driver_route = $_SESSION['route'];
+$sql = "SELECT * FROM reservation WHERE status='accepted' AND route=?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $driver_route);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $reservations = array();
 if ($result->num_rows > 0) {
@@ -21,9 +31,9 @@ if ($result->num_rows > 0) {
         $reservations[] = $row;
     }
 }
+$stmt->close();
 $conn->close();
 
 header('Content-Type: application/json');
 echo json_encode($reservations);
 ?>
-

@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['route'])) {
+    echo "<script>alert('Unauthorized access. Please login first.'); window.location.href='Driver_login.html';</script>";
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +14,7 @@ session_start();
     </head>
     <body>
         <h1>Accepted Reservations</h1>
-        <h1>Welcome, <?php echo($_SESSION['phone']) ? htmlspecialchars($_SESSION['phone']) : 'Driver'; ?></h1>
+        <h1>Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?></h1>
 
         <table id="acceptedReservations">
             <thead>
@@ -30,30 +34,26 @@ session_start();
             </tbody>
         </table>
 
-        <script> document.addEventListener('DOMContentLoaded', function () {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
                 fetch('Driver_fetch.php') // Create this PHP file to fetch accepted reservations
-                        .then(response => response.json())
-                        .then(data => {
-                            let tableBody = document.querySelector('#acceptedReservations tbody');
-                            data.forEach(reservation => {
-                                let row = tableBody.insertRow();
-                                row.insertCell(0).innerText = reservation.reservation_id;
-                                row.insertCell(1).innerText = reservation.name;
-                                row.insertCell(2).innerText = reservation.email;
-                                row.insertCell(3).innerText = reservation.phone;
-                                row.insertCell(4).innerText = reservation.date;
-                                row.insertCell(5).innerText = reservation.route;
-                                row.insertCell(6).innerText = reservation.dep_time;
-                                row.insertCell(7).innerText = reservation.ret_time;
-                            });
-                        })
-                        .catch(error => console.error("Fetch error:", error)); // Add error handling for fetch
+                    .then(response => response.json())
+                    .then(data => {
+                        let tableBody = document.querySelector('#acceptedReservations tbody');
+                        data.forEach(reservation => {
+                            let row = tableBody.insertRow();
+                            row.insertCell(0).innerText = reservation.reservation_id;
+                            row.insertCell(1).innerText = reservation.name;
+                            row.insertCell(2).innerText = reservation.email;
+                            row.insertCell(3).innerText = reservation.phone;
+                            row.insertCell(4).innerText = reservation.date;
+                            row.insertCell(5).innerText = reservation.route;
+                            row.insertCell(6).innerText = reservation.dep_time;
+                            row.insertCell(7).innerText = reservation.ret_time;
+                        });
+                    })
+                    .catch(error => console.error("Fetch error:", error));
             });
-            
-            
-
-        </script> <!-- Replace with your JavaScript file -->
+        </script>
     </body>
 </html>
-
-
