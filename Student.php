@@ -62,37 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Student Shuttle Reservation</title>
         <link rel="stylesheet" href="css/Style7.css"/>
-        <style>
-            .confirmation-dialog {
-                display: none;
-                position: fixed;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-                background-color: #fff;
-                border: 1px solid #ccc;
-                padding: 20px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                z-index: 1000;
-                max-width: 80%;
-            }
-            .confirmation-dialog h3 {
-                margin-top: 0;
-            }
-            .confirmation-dialog p {
-                margin-bottom: 10px;
-            }
-            .confirmation-dialog .btn {
-                background-color: #4CAF50;
-                color: white;
-                padding: 10px 20px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-        </style>
     </head>
     <body>
         <div class="container">

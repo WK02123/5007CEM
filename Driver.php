@@ -13,7 +13,7 @@ if (!isset($_SESSION['route'])) {
         <link rel="stylesheet" href="css/Style6.css"/> <!-- Replace with your CSS file -->
     </head>
     <body>
-        <h1>Accepted Reservations</h1>
+        <h1>Accepted Reservations for Today</h1>
         <h1>Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?></h1>
 
         <table id="acceptedReservations">

@@ -19,9 +19,10 @@ if ($conn->connect_error) {
 }
 
 $driver_route = $_SESSION['route'];
-$sql = "SELECT * FROM reservation WHERE status='accepted' AND route=?";
+$today = date('Y-m-d');
+$sql = "SELECT * FROM reservation WHERE status='accepted' AND route=? AND date=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $driver_route);
+$stmt->bind_param("ss", $driver_route, $today);
 $stmt->execute();
 $result = $stmt->get_result();
 
