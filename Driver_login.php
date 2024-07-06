@@ -44,7 +44,7 @@ if ($result->num_rows > 0) {
     exit();
 } else {
     // Incorrect login
-    echo "<script>alert('Incorrect Driver ID or password'); window.location.href='Driver_login.html';</script>";
+    echo "<script>alert('Incorrect Driver ID or password'); window.location.href='Driver_log.html';</script>";
 }
 
 // Close the connection

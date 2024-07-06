@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 header("Content-Type: application/json");
 
 $servername = "localhost";
@@ -51,6 +53,12 @@ function handleGet($conn) {
 
 function handlePost($conn) {
     $data = json_decode(file_get_contents('php://input'), true);
+
+    if (!isset($data['password'], $data['name'], $data['email'], $data['phone'])) {
+        echo json_encode(["error" => "Invalid input"]);
+        return;
+    }
+
     $password = $conn->real_escape_string($data['password']);
     $name = $conn->real_escape_string($data['name']);
     $email = $conn->real_escape_string($data['email']);
@@ -66,6 +74,12 @@ function handlePost($conn) {
 
 function handlePut($conn) {
     $data = json_decode(file_get_contents('php://input'), true);
+
+    if (!isset($data['student_id'], $data['password'], $data['name'], $data['email'], $data['phone'])) {
+        echo json_encode(["error" => "Invalid input"]);
+        return;
+    }
+
     $student_id = intval($data['student_id']);
     $password = $conn->real_escape_string($data['password']);
     $name = $conn->real_escape_string($data['name']);

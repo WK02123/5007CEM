@@ -1,102 +1,111 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Admin Page</title>
-        <link rel="stylesheet" href="css/Style4.css"/>
-    </head>
-    <body>
-        <center>
-            <h1>Admin Page</h1>
-        </center>
-        <table id="reservationTable">
-            <thead>
-                <tr>
-                    <th>Student ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Date</th>
-                    <th>Route</th>
-                    <th>Departure Time</th>
-                    <th>Return Time</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <script>
-            function updateReservation(reservation_id, status) {
-                console.log("Updating reservation:", reservation_id, status); // Debugging log
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "update_reservation.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            console.log("Server response:", xhr.responseText); // Output the response from the server
-                            if (xhr.responseText.includes("success")) {
-                                location.reload();
-                            } else {
-                                console.error("Update failed:", xhr.responseText);
-                            }
-                        } else {
-                            console.error("Error: " + xhr.status);
-                        }
-                    }
-                };
-                xhr.send("reservation_id=" + reservation_id + "&status=" + status);
+<head>
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="css/Style4.css"/>
+</head>
+<body>
+<center>
+    <h1>Admin Page</h1>
+</center>
+<table id="reservationTable">
+    <thead>
+    <tr>
+        <th>Student ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Date</th>
+        <th>Route</th>
+        <th>Departure Time</th>
+        <th>Return Time</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script>
+    function updateReservation(reservation_id, status) {
+        var comment = "";
+        if (status === 'rejected') {
+            comment = prompt("Enter your comment:");
+            if (comment === null || comment.trim() === "") {
+                alert("Comment is required when rejecting a reservation.");
+                return;
             }
-
-            function deleteReservation(reservation_id) {
-                console.log("Deleting reservation:", reservation_id); // Debugging log
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "delete_reservation.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            console.log("Server response:", xhr.responseText); // Output the response from the server
-                            if (xhr.responseText.includes("success")) {
-                                location.reload();
-                            } else {
-                                console.error("Delete failed:", xhr.responseText);
-                            }
-                        } else {
-                            console.error("Error: " + xhr.status);
-                        }
+        }
+        console.log("Updating reservation:", reservation_id, status, comment);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "update_reservation.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log("Server response:", xhr.responseText);
+                    if (xhr.responseText.includes("success")) {
+                        alert("Reservation " + status + " and email sent.");
+                        location.reload();
+                    } else {
+                        console.error("Update failed:", xhr.responseText);
                     }
-                };
-                xhr.send("reservation_id=" + reservation_id);
+                } else {
+                    console.error("Error: " + xhr.status);
+                }
             }
+        };
+        xhr.send("reservation_id=" + reservation_id + "&status=" + status + "&comment=" + encodeURIComponent(comment));
+    }
 
-            document.addEventListener('DOMContentLoaded', function () {
-                fetch('fetch_reservations.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        let table = document.getElementById('reservationTable').getElementsByTagName('tbody')[0];
-                        data.forEach(reservation => {
-                            let row = table.insertRow();
-                            row.insertCell(0).innerText = reservation.student_id;
-                            row.insertCell(1).innerText = reservation.name;
-                            row.insertCell(2).innerText = reservation.email;
-                            row.insertCell(3).innerText = reservation.phone;
-                            row.insertCell(4).innerText = reservation.date;
-                            row.insertCell(5).innerText = reservation.route;
-                            row.insertCell(6).innerText = reservation.dep_time;
-                            row.insertCell(7).innerText = reservation.ret_time;
-                            row.insertCell(8).innerText = reservation.status; // Add status cell
-                            let actionsCell = row.insertCell(9);
-                            actionsCell.innerHTML = `
-                                <button class='accept' onclick="updateReservation(${reservation.reservation_id}, 'accepted')">Accept</button>
-                                <button class='reject' onclick="updateReservation(${reservation.reservation_id}, 'rejected')">Reject</button>
-                                <button class='delete' onclick="deleteReservation(${reservation.reservation_id})">Delete</button>
-                            `;
-                        });
-                    })
-                    .catch(error => console.error("Fetch error:", error)); // Add error handling for fetch
-            });
-        </script>
-    </body>
+    function deleteReservation(reservation_id) {
+        console.log("Deleting reservation:", reservation_id);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "delete_reservation.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log("Server response:", xhr.responseText);
+                    if (xhr.responseText.includes("success")) {
+                        location.reload();
+                    } else {
+                        console.error("Delete failed:", xhr.responseText);
+                    }
+                } else {
+                    console.error("Error: " + xhr.status);
+                }
+            }
+        };
+        xhr.send("reservation_id=" + reservation_id);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('fetch_reservations.php')
+                .then(response => response.json())
+                .then(data => {
+                    let table = document.getElementById('reservationTable').getElementsByTagName('tbody')[0];
+                    data.forEach(reservation => {
+                        let row = table.insertRow();
+                        row.insertCell(0).innerText = reservation.student_id;
+                        row.insertCell(1).innerText = reservation.name;
+                        row.insertCell(2).innerText = reservation.email;
+                        row.insertCell(3).innerText = reservation.phone;
+                        row.insertCell(4).innerText = reservation.date;
+                        row.insertCell(5).innerText = reservation.route;
+                        row.insertCell(6).innerText = reservation.dep_time;
+                        row.insertCell(7).innerText = reservation.ret_time;
+                        row.insertCell(8).innerText = reservation.status;
+                        let actionsCell = row.insertCell(9);
+                        actionsCell.innerHTML = `
+                            <button class='accept' onclick="updateReservation(${reservation.reservation_id}, 'accepted')">Accept</button>
+                            <button class='reject' onclick="updateReservation(${reservation.reservation_id}, 'rejected')">Reject</button>
+                            <button class='delete' onclick="deleteReservation(${reservation.reservation_id})">Delete</button>
+                        `;
+                    });
+                })
+                .catch(error => console.error("Fetch error:", error));
+    });
+</script>
+</body>
 </html>
